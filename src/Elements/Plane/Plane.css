@@ -1,0 +1,5 @@
+.material-symbols-outlined {
+    transform: rotate(45deg);
+    size: 100px;
+    /*transform: rotate(${rotation}deg)*/
+}
