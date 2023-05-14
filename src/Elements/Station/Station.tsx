@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState} from "react";
 import { Plane } from "../Plane/Plane";
 
 interface Station {
@@ -8,8 +8,7 @@ interface Station {
 }
 
 export const Station = (props: any) => {
-    const [hasPlane, setHasPlane] = useState(true);
-
+  
     const displayPlane = () => {
         if (props.occupied) {
             return (
@@ -18,10 +17,9 @@ export const Station = (props: any) => {
         }
     }
 
-
     return (
-        <div>
-            <h6>{props.name} sergsdfg</h6>
+        <div className="station_div">
+            <h6>{props.name}</h6>
             {displayPlane()}
         </div>
     )

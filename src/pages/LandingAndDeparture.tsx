@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Connection } from '../Connect/Conection';
 
 interface IPlane {
     id: number;
@@ -18,17 +19,28 @@ interface Itodo {
 export const LandingAndDeparture = () => {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [aircraftList, setAircraftList] = useState<Itodo[]>([]);
+    const [aircraftList, setAircraftList] = useState<IPlane[]>([]);
+    const connection = Connection();
 
 
     useEffect(() => {
+    if (!connection) return;
+
+        connection.on('SendAllFlights', (newaircraftList) =>{
+            setAircraftList(newaircraftList);
+        });
+
+        return () => {
+            connection.off('renderaircrafts');
+        };
+        //החלק הישן שכבר לא מתאים
         axios.get('https://jsonplaceholder.typicode.com/todos')
             .then(resp => {
                 setAircraftList(resp.data);
                 console.log(resp.data);
                 setIsLoading(false);
             })
-    }, [])
+    }, [connection])
 
     const renderaircrafts = () => {
         if (isLoading) {
@@ -47,8 +59,8 @@ export const LandingAndDeparture = () => {
                     {aircraftList.slice(0, 10).map((p) => (
                         <tr key={p.id}>
                             <td>{p.id}</td>
-                            <td>{p.title}</td>
-                            <td>{p.completed.toString()}</td>
+                            <td>{p.name}</td>
+                            <td>{p.status}</td>
                         </tr>
                     ))}
                 </tbody>
